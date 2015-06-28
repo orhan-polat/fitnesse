@@ -24,7 +24,8 @@ public class FitNesseMain {
   public static void main(String[] args) throws Exception {
     Arguments arguments = null;
     try {
-      arguments = new Arguments(args);
+      arguments = new Arguments(new String[] {"-p","8123"});
+    
     } catch (IllegalArgumentException e) {
       Arguments.printUsage();
       exit(1);
@@ -60,7 +61,7 @@ public class FitNesseMain {
 
     logStartupInfo(context);
 
-    update(context);
+   // update(context);
 
     if ("true".equalsIgnoreCase(contextConfigurator.get(INSTALL_ONLY))) {
       return null;

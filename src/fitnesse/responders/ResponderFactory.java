@@ -102,6 +102,11 @@ public class ResponderFactory {
     addResponder("replace", SearchReplaceResponder.class);
     addResponder("overview", SuiteOverviewResponder.class);
     addResponder("compareVersions", VersionComparerResponder.class);
+    
+    addResponder("pauseTest", TestPauseResponder.class);
+    addResponder("resumeTest", TestResumeResponder.class);
+    
+    
     filterMap = new HashMap<String, List<Responder>>();
   }
 

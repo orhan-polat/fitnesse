@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
 import util.FileUtil;
 import fitnesse.FitNesseContext;
 import fitnesse.authentication.AlwaysSecureOperation;
@@ -68,10 +70,16 @@ class DirectoryResponder implements SecureResponder {
     JSONArray listing = new JSONArray();
     for (FileInfo fileInfo : makeFileInfo(FileUtil.getDirectoryListing(requestedDirectory))) {
       JSONObject fiObject = new JSONObject();
-      fiObject.put("name", fileInfo.getName());
-      fiObject.put("size", fileInfo.getSize());
-      fiObject.put("date", fileInfo.getDate());
-      fiObject.put("directory", fileInfo.isDirectory());
+      try {
+		fiObject.put("name", fileInfo.getName());
+	      fiObject.put("size", fileInfo.getSize());
+	      fiObject.put("date", fileInfo.getDate());
+	      fiObject.put("directory", fileInfo.isDirectory());
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
       listing.put(fiObject);
     }
 

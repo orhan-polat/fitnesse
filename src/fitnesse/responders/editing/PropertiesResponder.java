@@ -52,7 +52,13 @@ public class PropertiesResponder implements SecureResponder {
 
   private void makeContent(FitNesseContext context, Request request) {
     if ("json".equals(request.getInput("format"))) {
-      JSONObject jsonObject = makeJson();
+      JSONObject jsonObject = null;
+	try {
+		jsonObject = makeJson();
+	} catch (JSONException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
       try {
         response.setContent(jsonObject.toString(1));
       } catch (JSONException e) {
@@ -65,7 +71,7 @@ public class PropertiesResponder implements SecureResponder {
     }
   }
 
-  private JSONObject makeJson() {
+  private JSONObject makeJson() throws JSONException {
     response.setContentType(Response.Format.JSON);
     JSONObject jsonObject = new JSONObject();
     String attributes[] = new String[] { TEST.toString(), PropertySEARCH,

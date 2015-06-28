@@ -188,5 +188,16 @@ public class StatementExecutor implements StatementExecutorInterface {
 			lock.notify();
 		}
 	}
+	
+	@Override
+	public void stepwiseTest() {
+		System.out.println("stepwiseTest");
+		if(pauseRequested) {
+			System.out.println("stepwiseTest::pauseRequested");
+			resumeTest();
+			pauseTest();
+		}
+
+	}
 
 }

@@ -105,6 +105,9 @@ public class SlimService {
 						} else if (cmd.contains(StopTestServerUtil.RESUME_METHOD)) {
 							System.out.println("resumeTest .....");
 							slimservice.slimServer.resumeTestExecution();
+						} else if (cmd.contains(StopTestServerUtil.STEPWISE_METHOD)) {
+							System.out.println("run only one step .....");
+							slimservice.slimServer.stepwiseTestExecution();
 						}
 					}
 

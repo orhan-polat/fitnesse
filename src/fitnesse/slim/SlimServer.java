@@ -118,6 +118,11 @@ public class SlimServer implements SocketServer {
 		executor.getStatementExecutor().resumeTest();
 	}
 
+	public void stepwiseTestExecution() {
+		System.out.println(">>>>> SlimServer.stepwiseTestExecution()");
+		executor.getStatementExecutor().stepwiseTest();
+	}
+	
 	private static List<String> list(String... strings) {
 		List<String> list = new ArrayList<String>();
 		for (String string : strings)

@@ -141,4 +141,10 @@ public class StatementTimeoutExecutor implements StatementExecutorInterface {
 		throw new IllegalAccessError();
 
 	}
+
+	@Override
+	public void stepwiseTest() {
+		// TODO Auto-generated method stub
+		
+	}
 }

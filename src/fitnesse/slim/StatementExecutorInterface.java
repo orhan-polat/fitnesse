@@ -28,6 +28,8 @@ public interface StatementExecutorInterface extends InstructionExecutor {
 	abstract void pauseTest();
 
 	abstract void resumeTest();
-
+	
+	abstract void stepwiseTest();
+	
 	void checkForPaused();
 }

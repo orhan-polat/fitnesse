@@ -9,11 +9,19 @@
 |ensure|echo boolean|true|
 
 !|script|fitnesse.testutil.WaitFixture|
-|start|fitnesse.testutil.WaitFixture|
-|start|fitnesse.testutil.WaitFixture|
-|start|fitnesse.testutil.WaitFixture|
-|start|fitnesse.testutil.WaitFixture|
-|start|fitnesse.testutil.WaitFixture|
+
+!|script|fitnesse.testutil.WaitFixture|
+
+!|script|fitnesse.testutil.WaitFixture|
+
+!|script|fitnesse.testutil.WaitFixture|
+
+!|script|fitnesse.testutil.WaitFixture|
+
+!|script|fitnesse.testutil.WaitFixture|
+
+!|script|fitnesse.testutil.WaitFixture|
+
 
 
 

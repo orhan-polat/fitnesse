@@ -28,7 +28,7 @@ public class TestPauseResponder implements SecureResponder {
 			out.println(StopTestServerUtil.SUSPEND_METHOD);
 			socket.close();
 		} catch (Exception e) {
-			System.out.println(StopTestServerUtil.SUSPEND_METHOD + "could not be invoked because of " + e.getMessage()
+			System.out.println(StopTestServerUtil.SUSPEND_METHOD + " could not be invoked because of " + e.getMessage()
 					+ " on Port " + StopTestServerUtil.getStopTestServerPort());
 		}
 

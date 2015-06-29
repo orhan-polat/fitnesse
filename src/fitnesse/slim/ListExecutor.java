@@ -44,19 +44,8 @@ public class ListExecutor {
 				executor.checkForPaused();
 
 				if (!executor.stopHasBeenRequested()) {
-
-					// System.out.println("Execute Statement normal flow: " +
-					// statement);
 					result.add(executeStatement(statement));
-
 				} else {
-
-					// System.out.println("it was stopped : ");
-					// System.out.println("executor.stopHasBeenRequested(): " +
-					// executor.stopHasBeenRequested()
-					// + " SlimServer.tearDownStatement: " +
-					// SlimServer.getTearDownStatement());
-
 					if (SlimServer.existsTearDownStatement()) {
 						result.add(executeStatement(SlimServer.getTearDownStatement()));
 						SlimServer.tearDownCalled = true;

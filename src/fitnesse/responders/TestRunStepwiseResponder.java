@@ -29,7 +29,7 @@ public class TestRunStepwiseResponder implements SecureResponder {
 			out.println(StopTestServerUtil.STEPWISE_METHOD);
 			socket.close();
 		} catch (Exception e) {
-			System.out.println(StopTestServerUtil.STEPWISE_METHOD + "could not be invoked because of " + e.getMessage()
+			System.out.println(StopTestServerUtil.STEPWISE_METHOD + " could not be invoked because of " + e.getMessage()
 					+ " on Port " + StopTestServerUtil.getStopTestServerPort());
 		}
 

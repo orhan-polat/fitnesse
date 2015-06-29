@@ -3,8 +3,10 @@
 package fitnesse.slim;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -22,9 +24,9 @@ import static fitnesse.slim.JavaSlimFactory.createJavaSlimFactory;
 public class SlimService {
 	public static final String OPTION_DESCRIPTOR = "[-v] [-i interactionClass] [-s statementTimeout] [-d] [-ssl parameterClass] port";
 	static FixtureInteraction interaction = getInteraction(null);
-	
-	public static Thread tearDownThread;
-	private static ServerSocket stopSocket;
+
+	public static Thread specialCommandThread;
+	private static ServerSocket specialCommandSocket;
 
 	public static class Options {
 		final boolean verbose;
@@ -69,6 +71,21 @@ public class SlimService {
 		} else {
 			parseCommandLineFailed(args);
 		}
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+
+				if (specialCommandSocket != null) {
+					try {
+						specialCommandSocket.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
+		});
 	}
 
 	protected static void parseCommandLineFailed(String[] args) {
@@ -81,32 +98,30 @@ public class SlimService {
 		final SlimService slimservice = new SlimService(slimFactory.getSlimServer(options.verbose), options.port,
 				options.interaction, options.daemon, options.useSSL, options.sslParameterClassName);
 
-		tearDownThread = (new Thread() {
+		specialCommandThread = (new Thread() {
 
 			@Override
 			public void run() {
 
 				try {
 
-					stopSocket = new ServerSocket(StopTestServerUtil.getStopTestServerPort());
-
+					specialCommandSocket = new ServerSocket(StopTestServerUtil.getStopTestServerPort());
+					
 					while (true) {
 
-						System.out.println(">>>>> Waiting for tearDown/suspendTest/resumeTest\n");
-						Socket accept = stopSocket.accept();
+						System.out.println(">>>>> Waiting for rest command on port " + StopTestServerUtil.getStopTestServerPort());
+						Socket accept = specialCommandSocket.accept();
 						BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
+						BufferedWriter out = new BufferedWriter(new OutputStreamWriter(accept.getOutputStream()));
 						String cmd = br.readLine();
 						System.out.println(">>>>> Message found: " + cmd + "\n");
 						if (cmd.contains(StopTestServerUtil.CANCEL_METHOD)) {
 							slimservice.slimServer.interruptTestExecution();
 						} else if (cmd.contains(StopTestServerUtil.SUSPEND_METHOD)) {
-							System.out.println("suspendTest .....");
 							slimservice.slimServer.suspendTestExecution();
 						} else if (cmd.contains(StopTestServerUtil.RESUME_METHOD)) {
-							System.out.println("resumeTest .....");
 							slimservice.slimServer.resumeTestExecution();
 						} else if (cmd.contains(StopTestServerUtil.STEPWISE_METHOD)) {
-							System.out.println("run only one step .....");
 							slimservice.slimServer.stepwiseTestExecution();
 						}
 					}
@@ -127,8 +142,8 @@ public class SlimService {
 			private void closeSocket() {
 				System.out.println("close Socket on Port : " + StopTestServerUtil.getStopTestServerPort());
 				try {
-					if (stopSocket != null) {
-						stopSocket.close();
+					if (specialCommandSocket != null) {
+						specialCommandSocket.close();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -136,9 +151,9 @@ public class SlimService {
 
 			};
 		});
-		tearDownThread.setDaemon(true);
+		specialCommandThread.setDaemon(true);
 
-		tearDownThread.start();
+		specialCommandThread.start();
 
 		slimservice.accept();
 	}

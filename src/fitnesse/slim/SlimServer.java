@@ -76,7 +76,7 @@ public class SlimServer implements SocketServer {
 			return true;
 		// We are done Bye Bye message received
 		if (instructions.equalsIgnoreCase(SlimVersion.BYEMESSAGE)) {
-			SlimService.tearDownThread.stop();
+			SlimService.specialCommandThread.stop();
 			return false;
 		}
 

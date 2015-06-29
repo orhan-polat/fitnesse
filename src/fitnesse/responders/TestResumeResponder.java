@@ -29,7 +29,7 @@ public class TestResumeResponder implements SecureResponder {
 			out.println(StopTestServerUtil.RESUME_METHOD);
 			socket.close();
 		} catch (Exception e) {
-			System.out.println(StopTestServerUtil.RESUME_METHOD + "could not be invoked because of " + e.getMessage()
+			System.out.println(StopTestServerUtil.RESUME_METHOD + " could not be invoked because of " + e.getMessage()
 					+ " on Port " + StopTestServerUtil.getStopTestServerPort());
 		}
 
